@@ -4,7 +4,7 @@
   <title><![CDATA[Cup of Java]]></title>
   <link href="cupofjava.de/atom.xml" rel="self"/>
   <link href="cupofjava.de/"/>
-  <updated>2012-11-02T17:54:54+01:00</updated>
+  <updated>2012-11-02T18:36:46+01:00</updated>
   <id>cupofjava.de/</id>
   <author>
     <name><![CDATA[Felix Müller]]></name>
@@ -12,5 +12,18 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Hello Internet!]]></title>
+    <link href="cupofjava.de/blog/2012/11/02/hello-internet/"/>
+    <updated>2012-11-02T18:08:00+01:00</updated>
+    <id>cupofjava.de/blog/2012/11/02/hello-internet</id>
+    <content type="html"><![CDATA[<p>Today I decided spontaneously to start my own blog. Most times I will blog about technology and programming: the things that tackles me. What that could be you may find on the <a href="cupofjava.de/about-me">about me</a> site.</p>
+
+<p>And sorry for the oh so funny title of this first blog post. I did not find a better one. ;-)</p>
+
+<p>So far so good. I hope you will enjoy the content.</p>
+]]></content>
+  </entry>
   
 </feed>
