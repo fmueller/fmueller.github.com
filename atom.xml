@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Cup of Java]]></title>
-  <link href="www.cupofjava.de/atom.xml" rel="self"/>
-  <link href="www.cupofjava.de/"/>
-  <updated>2012-11-02T13:23:21+01:00</updated>
-  <id>www.cupofjava.de/</id>
+  <link href="cupofjava.de/atom.xml" rel="self"/>
+  <link href="cupofjava.de/"/>
+  <updated>2012-11-02T13:29:27+01:00</updated>
+  <id>cupofjava.de/</id>
   <author>
     <name><![CDATA[Felix Müller]]></name>
     
