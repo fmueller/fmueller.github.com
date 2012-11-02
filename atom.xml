@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
-  <link href="http://fmueller.github.com/atom.xml" rel="self"/>
-  <link href="http://fmueller.github.com/"/>
-  <updated>2012-11-02T11:34:09+01:00</updated>
-  <id>http://fmueller.github.com/</id>
+  <title><![CDATA[Cup of Java]]></title>
+  <link href="www.cupofjava.de/atom.xml" rel="self"/>
+  <link href="www.cupofjava.de/"/>
+  <updated>2012-11-02T13:23:21+01:00</updated>
+  <id>www.cupofjava.de/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[Felix Müller]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>

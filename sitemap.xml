@@ -1,11 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://fmueller.github.com/blog/archives/</loc>
+        <loc>www.cupofjava.de/about-me/</loc>
+        <lastmod>2012-11-02T13:23:06+01:00</lastmod>
+    </url>
+    <url>
+        <loc>www.cupofjava.de/blog/archives/</loc>
         <lastmod>2012-11-02T11:25:38+01:00</lastmod>
     </url>
     <url>
-        <loc>http://fmueller.github.com/</loc>
+        <loc>www.cupofjava.de/</loc>
         <lastmod>2012-11-02T11:25:38+01:00</lastmod>
     </url>
 </urlset>
