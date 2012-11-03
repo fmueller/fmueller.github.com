@@ -1,23 +1,23 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>cupofjava.de/blog/2012/11/02/hello-internet/</loc>
+        <loc>http://cupofjava.de/blog/2012/11/02/hello-internet/</loc>
         <lastmod>2012-11-02T18:35:14+01:00</lastmod>
     </url>
     <url>
-        <loc>cupofjava.de/about-me/</loc>
+        <loc>http://cupofjava.de/about-me/</loc>
         <lastmod>2012-11-02T13:23:06+01:00</lastmod>
     </url>
     <url>
-        <loc>cupofjava.de/blog/archives/</loc>
+        <loc>http://cupofjava.de/blog/archives/</loc>
         <lastmod>2012-11-02T18:35:14+01:00</lastmod>
     </url>
     <url>
-        <loc>cupofjava.de/impressum/</loc>
+        <loc>http://cupofjava.de/impressum/</loc>
         <lastmod>2012-11-02T17:09:25+01:00</lastmod>
     </url>
     <url>
-        <loc>cupofjava.de/</loc>
+        <loc>http://cupofjava.de/</loc>
         <lastmod>2012-11-02T18:35:14+01:00</lastmod>
     </url>
 </urlset>

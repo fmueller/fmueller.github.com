@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Cup of Java]]></title>
-  <link href="cupofjava.de/atom.xml" rel="self"/>
-  <link href="cupofjava.de/"/>
-  <updated>2012-11-03T09:41:27+01:00</updated>
-  <id>cupofjava.de/</id>
+  <link href="http://cupofjava.de/atom.xml" rel="self"/>
+  <link href="http://cupofjava.de/"/>
+  <updated>2012-11-03T13:44:07+01:00</updated>
+  <id>http://cupofjava.de/</id>
   <author>
     <name><![CDATA[Felix Müller]]></name>
     
@@ -15,10 +15,10 @@
   
   <entry>
     <title type="html"><![CDATA[Hello Internet!]]></title>
-    <link href="cupofjava.de/blog/2012/11/02/hello-internet/"/>
+    <link href="http://cupofjava.de/blog/2012/11/02/hello-internet/"/>
     <updated>2012-11-02T18:08:00+01:00</updated>
-    <id>cupofjava.de/blog/2012/11/02/hello-internet</id>
-    <content type="html"><![CDATA[<p>Today I decided spontaneously to start my own blog. Most times I will blog about technology and programming: the things that tackles me. What that could be you may find on the <a href="cupofjava.de/about-me">about me</a> site.</p>
+    <id>http://cupofjava.de/blog/2012/11/02/hello-internet</id>
+    <content type="html"><![CDATA[<p>Today I decided spontaneously to start my own blog. Most times I will blog about technology and programming: the things that tackles me. What that could be you may find on the <a href="http://cupofjava.de/about-me">about me</a> site.</p>
 
 <p>And sorry for the oh so funny title of this first blog post. I did not find a better one. ;-)</p>
 
