@@ -5,6 +5,8 @@ sharing: false
 footer: false
 ---
 
+# About me
+
 **I am a passionate software engineer currently based in Berlin, Germany.**
 
 I like to write software and build products in a team. My main interests are software development, reading great books that inspire me (mostly science fiction) and doing fitness training.
