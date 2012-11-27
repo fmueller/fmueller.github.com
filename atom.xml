@@ -4,7 +4,7 @@
   <title><![CDATA[Cup of Java]]></title>
   <link href="http://cupofjava.de/atom.xml" rel="self"/>
   <link href="http://cupofjava.de/"/>
-  <updated>2012-11-25T17:33:35+01:00</updated>
+  <updated>2012-11-27T13:02:46+01:00</updated>
   <id>http://cupofjava.de/</id>
   <author>
     <name><![CDATA[Felix Müller]]></name>
@@ -12,6 +12,145 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Embedded Elasticsearch Server for Tests]]></title>
+    <link href="http://cupofjava.de/blog/2012/11/27/embedded-elasticsearch-server-for-tests/"/>
+    <updated>2012-11-27T12:31:00+01:00</updated>
+    <id>http://cupofjava.de/blog/2012/11/27/embedded-elasticsearch-server-for-tests</id>
+    <content type="html"><![CDATA[<p>When developing with elasticsearch one of the first problems is how to get tests in place that use a fast server instance. It should be easily embeddable in your tests and reliable. <!-- more --></p>
+
+<p>Therefore, you have to take care of two things: disable the http module because you do not want to have network communication in your tests and configure a writable data directory. You could also use elasticsearch with full in-memory mode but this is not as stable as you may think. Just let Lucene write on disk in a temporary directory.</p>
+
+<figure class='code'><figcaption><span>Example of an embedded elasticsearch server</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">EmbeddedElasticsearchServer</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">DEFAULT_DATA_DIRECTORY</span> <span class="o">=</span> <span class="s">&quot;target/elasticsearch-data&quot;</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Node</span> <span class="n">node</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">dataDirectory</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">EmbeddedElasticsearchServer</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">(</span><span class="n">DEFAULT_DATA_DIRECTORY</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">EmbeddedElasticsearchServer</span><span class="o">(</span><span class="n">String</span> <span class="n">dataDirectory</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">dataDirectory</span> <span class="o">=</span> <span class="n">dataDirectory</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">ImmutableSettings</span><span class="o">.</span><span class="na">Builder</span> <span class="n">elasticsearchSettings</span> <span class="o">=</span> <span class="n">ImmutableSettings</span><span class="o">.</span><span class="na">settingsBuilder</span><span class="o">()</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&quot;http.enabled&quot;</span><span class="o">,</span> <span class="s">&quot;false&quot;</span><span class="o">)</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&quot;path.data&quot;</span><span class="o">,</span> <span class="n">dataDirectory</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">node</span> <span class="o">=</span> <span class="n">nodeBuilder</span><span class="o">()</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">local</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">settings</span><span class="o">(</span><span class="n">elasticsearchSettings</span><span class="o">.</span><span class="na">build</span><span class="o">())</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">node</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">Client</span> <span class="nf">getClient</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="na">client</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">shutdown</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">node</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">deleteDataDirectory</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">deleteDataDirectory</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">try</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">FileUtils</span><span class="o">.</span><span class="na">deleteDirectory</span><span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">dataDirectory</span><span class="o">));</span>
+</span><span class='line'>        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">&quot;Could not delete data directory of embedded elasticsearch server&quot;</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>By using <code>getClient</code> you can get access to the embedded server. And as you can see the data directory is deleted when the embedded elasticsearch server will be stopped. With this class available you can write an abstract test helper class for your test infrastructure.</p>
+
+<figure class='code'><figcaption><span>Test helper class for an embedded elasticsearch server per test</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">AbstractElasticsearchIntegrationTest</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">EmbeddedElasticsearchServer</span> <span class="n">embeddedElasticsearchServer</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Before</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">startEmbeddedElasticsearchServer</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">embeddedElasticsearchServer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">EmbeddedElasticsearchServer</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@After</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">shutdownEmbeddedElasticsearchServer</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">embeddedElasticsearchServer</span><span class="o">.</span><span class="na">shutdown</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">protected</span> <span class="n">Client</span> <span class="nf">getClient</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">embeddedElasticsearchServer</span><span class="o">.</span><span class="na">getClient</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can find a full example there: <a href="https://github.com/fmueller/elasticsearch-integration-test">elasticsearch-integration-test</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Fully fledged Spring support in Play 2.0]]></title>

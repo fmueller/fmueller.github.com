@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: elasticsearch | Cup of Java]]></title>
+  <link href="http://cupofjava.de/blog/categories/elasticsearch/atom.xml" rel="self"/>
+  <link href="http://cupofjava.de/"/>
+  <updated>2012-11-27T13:02:46+01:00</updated>
+  <id>http://cupofjava.de/</id>
+  <author>
+    <name><![CDATA[Felix Müller]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Embedded Elasticsearch Server for Tests]]></title>
+    <link href="http://cupofjava.de/blog/2012/11/27/embedded-elasticsearch-server-for-tests/"/>
+    <updated>2012-11-27T12:31:00+01:00</updated>
+    <id>http://cupofjava.de/blog/2012/11/27/embedded-elasticsearch-server-for-tests</id>
+    <content type="html"><![CDATA[<p>When developing with elasticsearch one of the first problems is how to get tests in place that use a fast server instance. It should be easily embeddable in your tests and reliable. <!-- more --></p>
+
+<p>Therefore, you have to take care of two things: disable the http module because you do not want to have network communication in your tests and configure a writable data directory. You could also use elasticsearch with full in-memory mode but this is not as stable as you may think. Just let Lucene write on disk in a temporary directory.</p>
+
+<p>```java Example of an embedded elasticsearch server
+public class EmbeddedElasticsearchServer {</p>
+
+<pre><code>private static final String DEFAULT_DATA_DIRECTORY = "target/elasticsearch-data";
+
+private final Node node;
+private final String dataDirectory;
+
+public EmbeddedElasticsearchServer() {
+    this(DEFAULT_DATA_DIRECTORY);
+}
+
+public EmbeddedElasticsearchServer(String dataDirectory) {
+    this.dataDirectory = dataDirectory;
+
+    ImmutableSettings.Builder elasticsearchSettings = ImmutableSettings.settingsBuilder()
+            .put("http.enabled", "false")
+            .put("path.data", dataDirectory);
+
+    node = nodeBuilder()
+            .local(true)
+            .settings(elasticsearchSettings.build())
+            .node();
+}
+
+public Client getClient() {
+    return node.client();
+}
+
+public void shutdown() {
+    node.close();
+    deleteDataDirectory();
+}
+
+private void deleteDataDirectory() {
+    try {
+        FileUtils.deleteDirectory(new File(dataDirectory));
+    } catch (IOException e) {
+        throw new RuntimeException("Could not delete data directory of embedded elasticsearch server", e);
+    }
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>By using <code>getClient</code> you can get access to the embedded server. And as you can see the data directory is deleted when the embedded elasticsearch server will be stopped. With this class available you can write an abstract test helper class for your test infrastructure.</p>
+
+<p>```java Test helper class for an embedded elasticsearch server per test
+public abstract class AbstractElasticsearchIntegrationTest {</p>
+
+<pre><code>private EmbeddedElasticsearchServer embeddedElasticsearchServer;
+
+@Before
+public void startEmbeddedElasticsearchServer() {
+    embeddedElasticsearchServer = new EmbeddedElasticsearchServer();
+}
+
+@After
+public void shutdownEmbeddedElasticsearchServer() {
+    embeddedElasticsearchServer.shutdown();
+}
+
+protected Client getClient() {
+    return embeddedElasticsearchServer.getClient();
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>You can find a full example there: <a href="https://github.com/fmueller/elasticsearch-integration-test">elasticsearch-integration-test</a></p>
+]]></content>
+  </entry>
+  
+</feed>
