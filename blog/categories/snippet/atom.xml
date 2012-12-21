@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: testing | Cup of Java]]></title>
-  <link href="http://cupofjava.de/blog/categories/testing/atom.xml" rel="self"/>
+  <title><![CDATA[Category: snippet | Cup of Java]]></title>
+  <link href="http://cupofjava.de/blog/categories/snippet/atom.xml" rel="self"/>
   <link href="http://cupofjava.de/"/>
   <updated>2012-12-21T14:02:07+01:00</updated>
   <id>http://cupofjava.de/</id>
@@ -193,99 +193,6 @@ protected Client getClient() {
 ```</p>
 
 <p>You can find a full example there: <a href="https://github.com/fmueller/elasticsearch-integration-test">elasticsearch-integration-test</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Integration Tests with MongoDB and Play Framework 2]]></title>
-    <link href="http://cupofjava.de/blog/2012/11/09/integration-tests-with-mongodb-and-play-framework-2/"/>
-    <updated>2012-11-09T09:45:00+01:00</updated>
-    <id>http://cupofjava.de/blog/2012/11/09/integration-tests-with-mongodb-and-play-framework-2</id>
-    <content type="html"><![CDATA[<p>In of my projects I am building a rest api with the playframework 2 (using the java api) and MongoDB as the persistence storage. One of the first question that arises was: how can I implement integration tests properly with a test instance of MongoDB? I wanted to have a known state in MongoDB for each test and it should be easy to set up the test instance. <!-- more --></p>
-
-<p>I looked for projects on github that supports my requirements and came up with these three possibilities:</p>
-
-<ul>
-<li><a href="https://github.com/thiloplanz/jmockmongo"><strong>jmockmongo</strong></a> This is a mock implementation of the MongoDB protocol and works purely in-memory.</li>
-<li><a href="https://github.com/lordofthejars/nosql-unit"><strong>nosqlunit</strong></a> This library offers more features than jmockmongo. You can use it to test several nosql stores and configure data sets for your tests. For testing MongoDB it uses jmockmongo under the hood. You can also use a local or remote running MongoDB instance for your tests if the in-memory approach does not suit your needs.</li>
-<li><a href="https://github.com/flapdoodle-oss/embedmongo.flapdoodle.de"><strong>embedmongo</strong></a> With embedmongo you get a platform independent way of running local MongoDB instances. It provides helper classes to bootstrap MongoDB during tests. The most important feature imho: You do not need to install MongoDB. embedmongo downloads MongoDB automatically for windows, linux and mac when bootstraping your tests.</li>
-</ul>
-
-
-<p>Because I wanted a running MongoDB instance and no in-memory solution I finally chose embedmongo. There is a nice helper class which lets you easily setup a MongoDB on a free port of your system. You can also choose the version.</p>
-
-<p><code>java Bootstrap local MongoDB instance with embedmongo
-new MongodForTestsFactory().with(Version.V2_2_0).newMongo();
-</code></p>
-
-<p>Furthermore I had the needs to integrate the MongoDB test instance into the lifecycle of Play. In Play one typically uses a fake instance for proper integration tests.</p>
-
-<p>``` java Functional test in Play 2 with a fake application
-running(fakeApplication(), new Runnable() {</p>
-
-<pre><code>@Override
-public void run() {
-    // here you insert your test code
-}
-</code></pre>
-
-<p>});
-```</p>
-
-<p>One can intercept the bootstrap of a Play 2 application with a so called Global object that is placed in the default package (or another package that you have configured in the application.conf). There you can override methods that are called from Play during start and shutdown of your application. The perfect place to bootstrap your own MongoDB instance.</p>
-
-<p>``` java Automatically bootstrap of local MongoDB instance in Play 2
-import com.mongodb.Mongo;
-import de.flapdoodle.embed.mongo.distribution.Version;
-import de.flapdoodle.embed.mongo.tests.MongodForTestsFactory;
-import play.Application;
-import play.GlobalSettings;
-import play.Logger;</p>
-
-<p>import java.io.IOException;</p>
-
-<p>public class Global extends GlobalSettings {</p>
-
-<pre><code>private MongodForTestsFactory mongodForTestsFactory;
-
-@Override
-public void onStart(Application application) {
-    if (application.isProd()) {
-        /*
-         * here you can setup mongodb for production,
-         * e.g. connect to remote mongodb instance
-         */
-    } else {
-        startLocalMongoInstance();
-    }
-}
-
-@Override
-public void onStop(Application application) {
-    if (mongodForTestsFactory != null) {
-        Logger.info("Shutdown local mongo instance...");
-        mongodForTestsFactory.shutdown();
-        Logger.info("Local mongo instance was stopped");
-    }
-}
-
-private void startLocalMongoInstance() {
-    Logger.info("Start local mongo instance...");
-    try {
-        mongodForTestsFactory = new MongodForTestsFactory();
-        Mongo mongo = mongodForTestsFactory.with(Version.V2_2_0).newMongo();
-        // that's it: now you've got the local mongo instance
-        Logger.info("Local mongo instance was successfully started");
-    } catch (IOException e) {
-        Logger.error("Unable to start local mongo instance", e);
-        throw new RuntimeException(e);
-    }
-}
-</code></pre>
-
-<p>}
-```
-This solution starts a MongoDB instance each time you start Play in development mode and for each test where you start a fake application. In production you typically connect to a remote MongoDB instance or cluster.</p>
 ]]></content>
   </entry>
   

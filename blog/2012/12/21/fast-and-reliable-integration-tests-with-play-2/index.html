@@ -1,0 +1,457 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Fast and reliable integration tests with Play 2 - Cup of Java</title>
+  <meta name="author" content="Felix Müller">
+
+  
+  <meta name="description" content="When you start using the Play Framework 2 you will notice that there are a bunch of test helpers and entry points to set up your tests. That&#8217;s &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cupofjava.de/blog/2012/12/21/fast-and-reliable-integration-tests-with-play-2/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Cup of Java" type="application/atom+xml">
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-36050488-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <div id="logo">
+  	<div id="logoLeft">{</div>
+  	<div id="logoText">dev</div>
+  	<div id="logoRight">}</div>
+  	<div class="clear"></div>
+  </div>
+  <h1><a href="/">Cup of Java</a></h1>
+  
+    <h2>Tales of a lost software engineer</h2>
+  
+  <div class="clear"></div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:cupofjava.de" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/categories/snippet">Snippets</a></li>
+  <li><a href="/about">About</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">Fast and Reliable Integration Tests With Play 2</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-21T11:49:00+01:00" pubdate data-updated="true">Dec 21<span>st</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>When you start using the Play Framework 2 you will notice that there are a bunch of test helpers and entry points to set up your tests. That&#8217;s great! One might thinks that&#8217;s too good to be true. And in fact, when using the <code>FakeApplication</code> test helper you can run into subtle problems which cause unreliable tests. <!-- more --></p>
+
+<p>In the <a href="http://www.playframework.org/documentation/2.0/JavaTest">Play Framework documentation</a> they show you that it is quite easy to set up a test with a <code>FakeApplication</code> by the following code snippet:</p>
+
+<figure class='code'><figcaption><span>Example of FakeApplication usage in Play Framework documentation</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Test</span>
+</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">findById</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="n">running</span><span class="o">(</span><span class="n">fakeApplication</span><span class="o">(),</span> <span class="k">new</span> <span class="n">Runnable</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">Computer</span> <span class="n">macintosh</span> <span class="o">=</span> <span class="n">Computer</span><span class="o">.</span><span class="na">find</span><span class="o">.</span><span class="na">byId</span><span class="o">(</span><span class="mi">21</span><span class="n">l</span><span class="o">);</span>
+</span><span class='line'>      <span class="n">assertThat</span><span class="o">(</span><span class="n">macintosh</span><span class="o">.</span><span class="na">name</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">&quot;Macintosh&quot;</span><span class="o">);</span>
+</span><span class='line'>      <span class="n">assertThat</span><span class="o">(</span><span class="n">formatted</span><span class="o">(</span><span class="n">macintosh</span><span class="o">.</span><span class="na">introduced</span><span class="o">)).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">&quot;1984-01-24&quot;</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>  <span class="o">});</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So, you might think when you have many test methods you just copy this pattern and everything is fine. But that is not the case!</p>
+
+<figure class='code'><figcaption><span>Pattern of FakeApplication per test method</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Test</span>
+</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">testOne</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="n">running</span><span class="o">(</span><span class="n">fakeApplication</span><span class="o">(),</span> <span class="k">new</span> <span class="n">Runnable</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>      <span class="c1">// test logic</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>  <span class="o">});</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@Test</span>
+</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">testTwo</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="n">running</span><span class="o">(</span><span class="n">fakeApplication</span><span class="o">(),</span> <span class="k">new</span> <span class="n">Runnable</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>      <span class="c1">// test logic</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>  <span class="o">});</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here are two examples that <code>FakeApplication</code> can be difficult to use:</p>
+
+<ul>
+<li><a href="https://groups.google.com/forum/#!searchin/play-framework/fakeApplication/play-framework/zcpdOL61xXQ/5cUH-HKf1okJ">(Play-Scala 2.0.4) FakeApplication onStop not being called after Test</a></li>
+<li><a href="https://groups.google.com/forum/#!msg/play-framework/0Ld889ARC8o/mYcrMeX2dsYJ">[play 2.0.3] Two fakeApplication tests only one will succeed but the other throws error 500</a></li>
+</ul>
+
+
+<p>I ran into the same problems that are mentioned in the first mailinglist posting. In the <a href="http://cupofjava.de/blog/2012/11/09/integration-tests-with-mongodb-and-play-framework-2/">project where I&#8217;m using MongoDB together with Play 2</a> the tests with a <code>FakeApplication</code> started to become unreliable. There were issues with cleaning up test data after and before each test method. Also the shutdown and restart of a <code>FakeApplication</code> was sometimes error prone.</p>
+
+<p>The best solution for this problems is to start one <code>FakeApplication</code> per test class, not per test method. Here is the test helper class that I use for this:</p>
+
+<figure class='code'><figcaption><span>One FakeApplication per test class</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">org.junit.AfterClass</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.junit.Before</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.junit.BeforeClass</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">play.test.FakeApplication</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">static</span> <span class="n">play</span><span class="o">.</span><span class="na">test</span><span class="o">.</span><span class="na">Helpers</span><span class="o">.*;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">AbstractOneFakeApplicationIntegrationTest</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="kd">static</span> <span class="n">FakeApplication</span> <span class="n">fakeApplication</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@BeforeClass</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">startFakeApplication</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">fakeApplication</span> <span class="o">=</span> <span class="n">fakeApplication</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">start</span><span class="o">(</span><span class="n">fakeApplication</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@AfterClass</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">shutdownFakeApplication</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">stop</span><span class="o">(</span><span class="n">fakeApplication</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You only need to inherit from it and every test has access to a running <code>FakeApplication</code>. One disadvantage is that you have more work to clean up any data that is written for your tests into databases, filesystem or any other persistent system. But you get <strong>reliable integration tests</strong> and the tests are <strong>much faster</strong> because you only start one <code>FakeApplication</code> per class and not dozens of them as in the per method approach</p>
+
+<p>Beside this little issues that <code>FakeApplication</code> can cause Play 2 offers great testing support.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Felix Müller</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-21T11:49:00+01:00" pubdate data-updated="true">Dec 21<span>st</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/play/'>play</a>, <a class='category' href='/blog/categories/snippet/'>snippet</a>, <a class='category' href='/blog/categories/testing/'>testing</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cupofjava.de/blog/2012/12/21/fast-and-reliable-integration-tests-with-play-2/" data-via="fmueller_bln" data-counturl="http://cupofjava.de/blog/2012/12/21/fast-and-reliable-integration-tests-with-play-2/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left articlenav" href="/blog/2012/11/27/embedded-elasticsearch-server-for-tests/" title="Previous Post: Embedded Elasticsearch Server for Tests">&laquo; Embedded Elasticsearch Server for Tests</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/12/21/fast-and-reliable-integration-tests-with-play-2/">Fast and reliable integration tests with Play 2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/27/embedded-elasticsearch-server-for-tests/">Embedded Elasticsearch Server for Tests</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/23/fully-fledged-spring-support-in-play-2-dot-0/">Fully fledged Spring support in Play 2.0</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/09/integration-tests-with-mongodb-and-play-framework-2/">Integration Tests with MongoDB and Play Framework 2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/02/hello-internet/">Hello Internet!</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("fmueller_bln", 4, true);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/fmueller_bln" class="twitter-follow-button" data-show-count="true">Follow @fmueller_bln</a>
+  
+</section>
+
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/fmueller">@fmueller</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'fmueller',
+            count: 4,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/102144764088402040998?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+<section>
+    <a href="http://www.xing.com/profile/Felix_Mueller98" target="_blank" rel="me"><img src="http://www.xing.com/img/buttons/10_en_btn.gif" alt="Felix Müller" style="border: 0;"></a>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Felix Müller -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  <span style="float: right"><a href="/impressum">Impressum</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'cupofjava';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://cupofjava.de/blog/2012/12/21/fast-and-reliable-integration-tests-with-play-2/';
+        var disqus_url = 'http://cupofjava.de/blog/2012/12/21/fast-and-reliable-integration-tests-with-play-2/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

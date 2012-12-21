@@ -4,7 +4,7 @@
   <title><![CDATA[Cup of Java]]></title>
   <link href="http://cupofjava.de/atom.xml" rel="self"/>
   <link href="http://cupofjava.de/"/>
-  <updated>2012-11-27T13:02:46+01:00</updated>
+  <updated>2012-12-21T14:02:07+01:00</updated>
   <id>http://cupofjava.de/</id>
   <author>
     <name><![CDATA[Felix Müller]]></name>
@@ -12,6 +12,142 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Fast and reliable integration tests with Play 2]]></title>
+    <link href="http://cupofjava.de/blog/2012/12/21/fast-and-reliable-integration-tests-with-play-2/"/>
+    <updated>2012-12-21T11:49:00+01:00</updated>
+    <id>http://cupofjava.de/blog/2012/12/21/fast-and-reliable-integration-tests-with-play-2</id>
+    <content type="html"><![CDATA[<p>When you start using the Play Framework 2 you will notice that there are a bunch of test helpers and entry points to set up your tests. That&#8217;s great! One might thinks that&#8217;s too good to be true. And in fact, when using the <code>FakeApplication</code> test helper you can run into subtle problems which cause unreliable tests. <!-- more --></p>
+
+<p>In the <a href="http://www.playframework.org/documentation/2.0/JavaTest">Play Framework documentation</a> they show you that it is quite easy to set up a test with a <code>FakeApplication</code> by the following code snippet:</p>
+
+<figure class='code'><figcaption><span>Example of FakeApplication usage in Play Framework documentation</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Test</span>
+</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">findById</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="n">running</span><span class="o">(</span><span class="n">fakeApplication</span><span class="o">(),</span> <span class="k">new</span> <span class="n">Runnable</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">Computer</span> <span class="n">macintosh</span> <span class="o">=</span> <span class="n">Computer</span><span class="o">.</span><span class="na">find</span><span class="o">.</span><span class="na">byId</span><span class="o">(</span><span class="mi">21</span><span class="n">l</span><span class="o">);</span>
+</span><span class='line'>      <span class="n">assertThat</span><span class="o">(</span><span class="n">macintosh</span><span class="o">.</span><span class="na">name</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">&quot;Macintosh&quot;</span><span class="o">);</span>
+</span><span class='line'>      <span class="n">assertThat</span><span class="o">(</span><span class="n">formatted</span><span class="o">(</span><span class="n">macintosh</span><span class="o">.</span><span class="na">introduced</span><span class="o">)).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">&quot;1984-01-24&quot;</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>  <span class="o">});</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So, you might think when you have many test methods you just copy this pattern and everything is fine. But that is not the case!</p>
+
+<figure class='code'><figcaption><span>Pattern of FakeApplication per test method</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Test</span>
+</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">testOne</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="n">running</span><span class="o">(</span><span class="n">fakeApplication</span><span class="o">(),</span> <span class="k">new</span> <span class="n">Runnable</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>      <span class="c1">// test logic</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>  <span class="o">});</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@Test</span>
+</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">testTwo</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="n">running</span><span class="o">(</span><span class="n">fakeApplication</span><span class="o">(),</span> <span class="k">new</span> <span class="n">Runnable</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>      <span class="c1">// test logic</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>  <span class="o">});</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here are two examples that <code>FakeApplication</code> can be difficult to use:</p>
+
+<ul>
+<li><a href="https://groups.google.com/forum/#!searchin/play-framework/fakeApplication/play-framework/zcpdOL61xXQ/5cUH-HKf1okJ">(Play-Scala 2.0.4) FakeApplication onStop not being called after Test</a></li>
+<li><a href="https://groups.google.com/forum/#!msg/play-framework/0Ld889ARC8o/mYcrMeX2dsYJ">[play 2.0.3] Two fakeApplication tests only one will succeed but the other throws error 500</a></li>
+</ul>
+
+
+<p>I ran into the same problems that are mentioned in the first mailinglist posting. In the <a href="http://cupofjava.de/blog/2012/11/09/integration-tests-with-mongodb-and-play-framework-2/">project where I&#8217;m using MongoDB together with Play 2</a> the tests with a <code>FakeApplication</code> started to become unreliable. There were issues with cleaning up test data after and before each test method. Also the shutdown and restart of a <code>FakeApplication</code> was sometimes error prone.</p>
+
+<p>The best solution for this problems is to start one <code>FakeApplication</code> per test class, not per test method. Here is the test helper class that I use for this:</p>
+
+<figure class='code'><figcaption><span>One FakeApplication per test class</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">org.junit.AfterClass</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.junit.Before</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.junit.BeforeClass</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">play.test.FakeApplication</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">static</span> <span class="n">play</span><span class="o">.</span><span class="na">test</span><span class="o">.</span><span class="na">Helpers</span><span class="o">.*;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">AbstractOneFakeApplicationIntegrationTest</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="kd">static</span> <span class="n">FakeApplication</span> <span class="n">fakeApplication</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@BeforeClass</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">startFakeApplication</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">fakeApplication</span> <span class="o">=</span> <span class="n">fakeApplication</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">start</span><span class="o">(</span><span class="n">fakeApplication</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@AfterClass</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">shutdownFakeApplication</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">stop</span><span class="o">(</span><span class="n">fakeApplication</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You only need to inherit from it and every test has access to a running <code>FakeApplication</code>. One disadvantage is that you have more work to clean up any data that is written for your tests into databases, filesystem or any other persistent system. But you get <strong>reliable integration tests</strong> and the tests are <strong>much faster</strong> because you only start one <code>FakeApplication</code> per class and not dozens of them as in the per method approach</p>
+
+<p>Beside this little issues that <code>FakeApplication</code> can cause Play 2 offers great testing support.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Embedded Elasticsearch Server for Tests]]></title>
