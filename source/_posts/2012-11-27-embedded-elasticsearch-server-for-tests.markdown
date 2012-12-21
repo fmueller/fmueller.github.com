@@ -3,7 +3,7 @@ layout: post
 title: "Embedded Elasticsearch Server for Tests"
 date: 2012-11-27 12:31
 comments: true
-categories: [testing, elasticsearch]
+categories: [testing, elasticsearch, snippet]
 ---
 
 When developing with elasticsearch one of the first problems is how to get tests in place that use a fast server instance. It should be easily embeddable in your tests and reliable. <!-- more -->
