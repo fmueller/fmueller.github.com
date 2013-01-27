@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: misc | Cup of Java]]></title>
+  <link href="http://cupofjava.de/blog/categories/misc/atom.xml" rel="self"/>
+  <link href="http://cupofjava.de/"/>
+  <updated>2013-01-27T20:06:30+01:00</updated>
+  <id>http://cupofjava.de/</id>
+  <author>
+    <name><![CDATA[Felix Müller]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[My (little late) Personal Tech Retroperspective of 2012]]></title>
+    <link href="http://cupofjava.de/blog/2013/01/27/my-little-late-personal-tech-retroperspective-of-2012/"/>
+    <updated>2013-01-27T19:25:00+01:00</updated>
+    <id>http://cupofjava.de/blog/2013/01/27/my-little-late-personal-tech-retroperspective-of-2012</id>
+    <content type="html"><![CDATA[<p>With this post I start a new series in this blog: At every beginning of a new year I wanna do a retroperspective (motivated by Agile…) of the technical stuff in my life that happens during the last year. Mostly about the stuff I learned. So, here it goes and I hope it does not annoy you too much.<!--more--></p>
+
+<h3>Achievements</h3>
+
+<ul>
+<li>gained a lot experience in working in teams and how to manage critical situations</li>
+<li>improved knowledge about continuous delivery</li>
+<li>improved skills in TDD, BDD, ATDD</li>
+<li>gained more experience in managing code quality</li>
+<li>improved skills in scripting builds</li>
+<li>improved usage of <a href="http://www.sonarsource.org">Sonar</a></li>
+<li>held many talks on conferences and events about testing, Sonar and Scala</li>
+<li>finally started this blog :-)</li>
+</ul>
+
+
+<h3>Technologies</h3>
+
+<ul>
+<li>Play Framework 1 &amp; 2 (Java, Scala)</li>
+<li>RabbitMQ, only for a spike but I enjoyed it a lot</li>
+<li>Elasticsearch, bad documentation but nevertheless a great technology</li>
+<li>MongoDB, the classic NoSql store</li>
+<li>Redis</li>
+<li>Spring MVC mostly for building REST apis</li>
+<li>JavaScript, oh geez a lot of JavaScript</li>
+<li>AngularJS, only a bit</li>
+<li>PhoneGap, the I/O related part for iOS</li>
+<li>Vagrant for setting up dev VMs</li>
+<li>Chef, only changing some configuration in existing scripts</li>
+<li>Ruby for web development</li>
+<li>Sinatra for a tiny web project, great framework</li>
+</ul>
+
+
+<h3>Events</h3>
+
+<ul>
+<li>visited many Java Usergroup Berlin events</li>
+<li>attended some conferences: BedCon, gearconf, Java Forum Stuttgart</li>
+<li>organized tech talks at my current employer, <a href="http://adesso.de">adesso AG</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>
