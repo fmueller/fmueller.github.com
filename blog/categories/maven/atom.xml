@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: maven | Cup of Java]]></title>
+  <link href="http://cupofjava.de/blog/categories/maven/atom.xml" rel="self"/>
+  <link href="http://cupofjava.de/"/>
+  <updated>2013-02-01T18:57:44+01:00</updated>
+  <id>http://cupofjava.de/</id>
+  <author>
+    <name><![CDATA[Felix Müller]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Fight dependency hell in Maven]]></title>
+    <link href="http://cupofjava.de/blog/2013/02/01/fight-dependency-hell-in-maven/"/>
+    <updated>2013-02-01T18:29:00+01:00</updated>
+    <id>http://cupofjava.de/blog/2013/02/01/fight-dependency-hell-in-maven</id>
+    <content type="html"><![CDATA[<p>Did you ever use Maven in one of your projects? First you probably were amazed by the way you can declare dependencies and use all the nice plugins. Then you may realized that the handling of transitive dependencies is solved… well, let me say it could be better. But there is another Maven plugin that helps you to clean your dependencies and also to ensure that transitive dependencies will never cause to rot your dependency definitions again. <!-- more --></p>
+
+<p>As mentioned in this <a href="http://www.jasonwhaley.com/blog/2012/03/21/dependency-convergence-in-maven/">blog posting</a>, the <a href="http://maven.apache.org/enforcer/maven-enforcer-plugin/index.html">Enforcer Maven Plugin</a> helps. It offers a dependency convergence rule that checks the following:
+<blockquote><p>If a project has two dependencies, A and B, both depending on the same artifact, C, this rule will fail the build if A depends on a different version of C then the version of C depended on by B.</p></blockquote>
+That is exactly what I want in all of my projects managed by Maven! Therefore, I add the enforcer plugin to the pom file and enable the <code>DependencyConvergence</code> rule. I find it useful when the enforcer plugin is executed during the validate phase. This causes the build to break before compiling if the dependencies do not converge. Then you have to exclude the unwanted transitive dependencies or change the versions. Very handy!</p>
+
+<p>``` xml Enable dependency convergence check in your Maven build
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-enforcer-plugin</artifactId>
+  <version>1.0.1</version>
+  <configuration></p>
+
+<pre><code>&lt;rules&gt;
+  &lt;DependencyConvergence/&gt;
+&lt;/rules&gt;
+</code></pre>
+
+<p>  </configuration>
+  <executions></p>
+
+<pre><code>&lt;execution&gt;
+  &lt;id&gt;enforce&lt;/id&gt;
+  &lt;goals&gt;
+    &lt;goal&gt;enforce&lt;/goal&gt;
+  &lt;/goals&gt;
+  &lt;phase&gt;validate&lt;/phase&gt;
+&lt;/execution&gt;
+</code></pre>
+
+<p>  </executions>
+</plugin>
+```
+Just try this in one of your projects. You will be quite surprised what for a mess your actual dependency definitions are.</p>
+]]></content>
+  </entry>
+  
+</feed>
