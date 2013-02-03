@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Talanted and highly skilled developers needed"
+title: "Talented and highly skilled developers needed"
 date: 2013-02-03 13:22
 comments: true
 categories: [misc]
