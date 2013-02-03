@@ -13,7 +13,7 @@ If you cannot hold your best ones you are facing many other problems:
 * hiring other great developers becomes more difficult because the more smart one developer is the more he wants to work with other even smarter developers to learn, to improve himself and last but not least to have fun at work
 * to improve your technical staff by methodologies like pair programming and code reviews becomes more difficult due the smart developers are away
 * your internal code quality may decrease or you may become slower at delivering valuable software
-* if your code quality decreases, it makes it even less attractive for smart developers to join your company (non of these wants to deal with shitty code although everyone of them may read "Working Effectively with Legacy Code" by Michael Feathers)
+* if your code quality decreases, it makes it even less attractive for smart developers to join your company (none of them want to deal with a shitty codebase although everyone of them may read "Working Effectively with Legacy Code" by Michael Feathers)
 
 On the other hand we are actually facing a shift from "one developer hero rescues the world/project" to "we develop a strong team, where super-programmers are not needed anymore". Yeah, that's the theory and it sounds great. But medicore developers do not learn new technologies, methods, frameworks and programming languages in there spare time. It's not their passion. And that is OK. I think that great developers make the difference between "just another IT company" and "company that leads the change in IT".
 
