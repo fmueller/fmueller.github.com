@@ -4,7 +4,7 @@
   <title><![CDATA[Category: misc | Cup of Java]]></title>
   <link href="http://cupofjava.de/blog/categories/misc/atom.xml" rel="self"/>
   <link href="http://cupofjava.de/"/>
-  <updated>2013-02-03T15:03:10+01:00</updated>
+  <updated>2013-02-05T11:25:26+01:00</updated>
   <id>http://cupofjava.de/</id>
   <author>
     <name><![CDATA[Felix Müller]]></name>
@@ -24,7 +24,7 @@
 
 <ul>
 <li>hiring other great developers becomes more difficult because the more smart one developer is the more he wants to work with other even smarter developers to learn, to improve himself and last but not least to have fun at work</li>
-<li>to improve your technical staff by methodologies like pair programming and code reviews becomes more difficult due the smart developers are away</li>
+<li>to improve your technical staff by techniques like pair programming and code reviews becomes more difficult due the smart developers are away</li>
 <li>your internal code quality may decrease or you may become slower at delivering valuable software</li>
 <li>if your code quality decreases, it makes it even less attractive for smart developers to join your company (none of them want to deal with a shitty codebase although everyone of them may read "Working Effectively with Legacy Code" by Michael Feathers)</li>
 </ul>
