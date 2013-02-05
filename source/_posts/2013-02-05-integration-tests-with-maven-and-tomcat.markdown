@@ -80,4 +80,4 @@ After this the only missing step is a working Tomcat integration in your build. 
 </plugin>
 ```
 
-With this little setup you get full support for integration tests with Maven and Tomcat in your web applications, especially if you building rest apis. I hope this little Maven snippet helps you to improve your build.
+With this little setup you get full support for integration tests with Maven and Tomcat in your web applications, especially if you building rest apis. I hope that this Maven snippet helps you to improve your build.
