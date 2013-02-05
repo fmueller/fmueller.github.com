@@ -4,7 +4,7 @@
   <title><![CDATA[Category: maven | Cup of Java]]></title>
   <link href="http://cupofjava.de/blog/categories/maven/atom.xml" rel="self"/>
   <link href="http://cupofjava.de/"/>
-  <updated>2013-02-05T12:04:10+01:00</updated>
+  <updated>2013-02-05T20:06:36+01:00</updated>
   <id>http://cupofjava.de/</id>
   <author>
     <name><![CDATA[Felix Müller]]></name>
@@ -12,6 +12,104 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Integration Tests with Maven and Tomcat]]></title>
+    <link href="http://cupofjava.de/blog/2013/02/05/integration-tests-with-maven-and-tomcat/"/>
+    <updated>2013-02-05T17:44:00+01:00</updated>
+    <id>http://cupofjava.de/blog/2013/02/05/integration-tests-with-maven-and-tomcat</id>
+    <content type="html"><![CDATA[<p>Last weeks I had to deal with implementing several rest apis. Some with Play 2, some with Spring MVC. Due only Play supports build-in mechanism for integration tests I had to integrate support for them in every project where I used Spring MVC. Those are typically Maven builds. Maven does not support separate integration tests with a running Tomcat (or any other webcontainer) by default. Hence you have to get your hands dirty.<!-- more --></p>
+
+<p>The goal is to execute all JUnit tests that are suffixed with <code>IntegrationTest</code>, start a Tomcat before (I want to test a deployed rest api) and afterwards shutdown the running Tomcat.</p>
+
+<p>For that you have to exclude all integration tests in the normal test phase of Maven.</p>
+
+<p>``` xml First, disable all integration tests during normale test phase
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-surefire-plugin</artifactId>
+  <version>2.12.1</version>
+  <configuration></p>
+
+<pre><code>&lt;excludes&gt;
+  &lt;exclude&gt;**/*IntegrationTest.java&lt;/exclude&gt;
+&lt;/excludes&gt;
+</code></pre>
+
+<p>  </configuration>
+</plugin>
+```</p>
+
+<p>Now you should add all integration tests to the Maven Failsafe Plugin and activate the execution of the plugin in your build.</p>
+
+<p>``` xml Configure the Failsafe Plugin appropriately
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-failsafe-plugin</artifactId>
+  <version>2.12.4</version>
+  <configuration></p>
+
+<pre><code>&lt;includes&gt;
+  &lt;include&gt;**/*IntegrationTest.java&lt;/include&gt;
+&lt;/includes&gt;
+</code></pre>
+
+<p>  </configuration>
+  <executions></p>
+
+<pre><code>&lt;execution&gt;
+  &lt;goals&gt;
+    &lt;goal&gt;integration-test&lt;/goal&gt;
+    &lt;goal&gt;verify&lt;/goal&gt;
+  &lt;/goals&gt;
+&lt;/execution&gt;
+</code></pre>
+
+<p>  </executions>
+</plugin>
+```</p>
+
+<p>After this the only missing step is a working Tomcat integration in your build. In this example I'm using the Tomcat 7 Maven Plugin for this (the Tomcat 6 plugin should also work). With the <code>start</code> and <code>stop</code> goals you can control a Tomcat instance. Important is that you fork the process, otherwise your build would be blocked by the running Tomcat. You can do similiar things with the Jetty Maven Plugin.</p>
+
+<p>``` xml Start Tomcat before all integration tests and stop it afterwards
+<plugin>
+  <groupId>org.apache.tomcat.maven</groupId>
+  <artifactId>tomcat7-maven-plugin</artifactId>
+  <version>2.0</version>
+  <configuration></p>
+
+<pre><code>&lt;path&gt;/&lt;/path&gt;
+</code></pre>
+
+<p>  </configuration>
+  <executions></p>
+
+<pre><code>&lt;execution&gt;
+  &lt;id&gt;start-tomcat&lt;/id&gt;
+  &lt;phase&gt;pre-integration-test&lt;/phase&gt;
+  &lt;goals&gt;
+    &lt;goal&gt;run&lt;/goal&gt;
+  &lt;/goals&gt;
+  &lt;configuration&gt;
+    &lt;fork&gt;true&lt;/fork&gt;
+  &lt;/configuration&gt;
+&lt;/execution&gt;
+&lt;execution&gt;
+  &lt;id&gt;stop-tomcat&lt;/id&gt;
+  &lt;phase&gt;post-integration-test&lt;/phase&gt;
+  &lt;goals&gt;
+    &lt;goal&gt;shutdown&lt;/goal&gt;
+  &lt;/goals&gt;
+&lt;/execution&gt;
+</code></pre>
+
+<p>  </executions>
+</plugin>
+```</p>
+
+<p>With this little setup you get full support for integration tests with Maven and Tomcat in your web applications, especially if you building rest apis. I hope this little Maven snippet helps you to improve your build.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Fight dependency hell in Maven]]></title>

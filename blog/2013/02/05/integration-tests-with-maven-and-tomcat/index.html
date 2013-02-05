@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Fight dependency hell in Maven - Cup of Java</title>
+  <title>Integration Tests with Maven and Tomcat - Cup of Java</title>
   <meta name="author" content="Felix Müller">
 
   
-  <meta name="description" content="Did you ever use Maven in one of your projects? First you probably were amazed by the way you can declare dependencies and use all the nice plugins. &hellip;">
+  <meta name="description" content="Last weeks I had to deal with implementing several rest apis. Some with Play 2, some with Spring MVC. Due only Play supports build-in mechanism for &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://cupofjava.de/blog/2013/02/01/fight-dependency-hell-in-maven/">
+  <link rel="canonical" href="http://cupofjava.de/blog/2013/02/05/integration-tests-with-maven-and-tomcat/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -90,7 +90,7 @@
   <header>
     
       
-        <h1 class="entry-title">Fight Dependency Hell in Maven</h1>
+        <h1 class="entry-title">Integration Tests With Maven and Tomcat</h1>
       
     
     
@@ -107,23 +107,86 @@
   
 
 
-<time datetime="2013-02-01T18:29:00+01:00" pubdate data-updated="true">Feb 1<span>st</span>, 2013</time>
+<time datetime="2013-02-05T17:44:00+01:00" pubdate data-updated="true">Feb 5<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>Did you ever use Maven in one of your projects? First you probably were amazed by the way you can declare dependencies and use all the nice plugins. Then you may realized that the handling of transitive dependencies is solved… well, let me say it could be better. But there is another Maven plugin that helps you to clean your dependencies and also to ensure that transitive dependencies will never cause to rot your dependency definitions again. <!-- more --></p>
+<div class="entry-content"><p>Last weeks I had to deal with implementing several rest apis. Some with Play 2, some with Spring MVC. Due only Play supports build-in mechanism for integration tests I had to integrate support for them in every project where I used Spring MVC. Those are typically Maven builds. Maven does not support separate integration tests with a running Tomcat (or any other webcontainer) by default. Hence you have to get your hands dirty.<!-- more --></p>
 
-<p>As mentioned in this <a href="http://www.jasonwhaley.com/blog/2012/03/21/dependency-convergence-in-maven/">blog posting</a>, the <a href="http://maven.apache.org/enforcer/maven-enforcer-plugin/index.html">Enforcer Maven Plugin</a> helps. It offers a dependency convergence rule that checks the following:</p>
+<p>The goal is to execute all JUnit tests that are suffixed with <code>IntegrationTest</code>, start a Tomcat before (I want to test a deployed rest api) and afterwards shutdown the running Tomcat.</p>
 
-<blockquote><p>If a project has two dependencies, A and B, both depending on the same artifact, C, this rule will fail the build if A depends on a different version of C then the version of C depended on by B.</p></blockquote>
+<p>For that you have to exclude all integration tests in the normal test phase of Maven.</p>
+
+<figure class='code'><figcaption><span>First, disable all integration tests during normale test phase</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;artifactId&gt;</span>maven-surefire-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;version&gt;</span>2.12.1<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;configuration&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;excludes&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;exclude&gt;</span>**/*IntegrationTest.java<span class="nt">&lt;/exclude&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/excludes&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/configuration&gt;</span>
+</span><span class='line'><span class="nt">&lt;/plugin&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p>That is exactly what I want in all of my projects managed by Maven! Therefore, I add the enforcer plugin to the pom file and enable the <code>DependencyConvergence</code> rule. I find it useful when the enforcer plugin is executed during the validate phase. This causes the build to break before compiling if the dependencies do not converge. Then you have to exclude the unwanted transitive dependencies or change the versions. Very handy!</p>
+<p>Now you should add all integration tests to the Maven Failsafe Plugin and activate the execution of the plugin in your build.</p>
 
-<figure class='code'><figcaption><span>Enable dependency convergence check in your Maven build</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Configure the Failsafe Plugin appropriately</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;artifactId&gt;</span>maven-failsafe-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;version&gt;</span>2.12.4<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;configuration&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;includes&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;include&gt;</span>**/*IntegrationTest.java<span class="nt">&lt;/include&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/includes&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/configuration&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;executions&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;execution&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;goals&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;goal&gt;</span>integration-test<span class="nt">&lt;/goal&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;goal&gt;</span>verify<span class="nt">&lt;/goal&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;/goals&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/execution&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/executions&gt;</span>
+</span><span class='line'><span class="nt">&lt;/plugin&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After this the only missing step is a working Tomcat integration in your build. In this example I&#8217;m using the Tomcat 7 Maven Plugin for this (the Tomcat 6 plugin should also work). With the <code>start</code> and <code>stop</code> goals you can control a Tomcat instance. Important is that you fork the process, otherwise your build would be blocked by the running Tomcat. You can do similiar things with the Jetty Maven Plugin.</p>
+
+<figure class='code'><figcaption><span>Start Tomcat before all integration tests and stop it afterwards</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -142,29 +205,45 @@
 <span class='line-number'>17</span>
 <span class='line-number'>18</span>
 <span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
 </pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;plugin&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;artifactId&gt;</span>maven-enforcer-plugin<span class="nt">&lt;/artifactId&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;version&gt;</span>1.0.1<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;groupId&gt;</span>org.apache.tomcat.maven<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;artifactId&gt;</span>tomcat7-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;version&gt;</span>2.0<span class="nt">&lt;/version&gt;</span>
 </span><span class='line'>  <span class="nt">&lt;configuration&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;rules&gt;</span>
-</span><span class='line'>      <span class="nt">&lt;DependencyConvergence/&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;/rules&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;path&gt;</span>/<span class="nt">&lt;/path&gt;</span>
 </span><span class='line'>  <span class="nt">&lt;/configuration&gt;</span>
 </span><span class='line'>  <span class="nt">&lt;executions&gt;</span>
 </span><span class='line'>    <span class="nt">&lt;execution&gt;</span>
-</span><span class='line'>      <span class="nt">&lt;id&gt;</span>enforce<span class="nt">&lt;/id&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;id&gt;</span>start-tomcat<span class="nt">&lt;/id&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;phase&gt;</span>pre-integration-test<span class="nt">&lt;/phase&gt;</span>
 </span><span class='line'>      <span class="nt">&lt;goals&gt;</span>
-</span><span class='line'>        <span class="nt">&lt;goal&gt;</span>enforce<span class="nt">&lt;/goal&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;goal&gt;</span>run<span class="nt">&lt;/goal&gt;</span>
 </span><span class='line'>      <span class="nt">&lt;/goals&gt;</span>
-</span><span class='line'>      <span class="nt">&lt;phase&gt;</span>validate<span class="nt">&lt;/phase&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;configuration&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;fork&gt;</span>true<span class="nt">&lt;/fork&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;/configuration&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/execution&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;execution&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;id&gt;</span>stop-tomcat<span class="nt">&lt;/id&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;phase&gt;</span>post-integration-test<span class="nt">&lt;/phase&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;goals&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;goal&gt;</span>shutdown<span class="nt">&lt;/goal&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;/goals&gt;</span>
 </span><span class='line'>    <span class="nt">&lt;/execution&gt;</span>
 </span><span class='line'>  <span class="nt">&lt;/executions&gt;</span>
 </span><span class='line'><span class="nt">&lt;/plugin&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Just try this in one of your projects. You will be quite surprised what for a mess your actual dependency definitions are.</p>
+<p>With this little setup you get full support for integration tests with Maven and Tomcat in your web applications, especially if you building rest apis. I hope this little Maven snippet helps you to improve your build.</p>
 </div>
 
 
@@ -187,7 +266,7 @@
   
 
 
-<time datetime="2013-02-01T18:29:00+01:00" pubdate data-updated="true">Feb 1<span>st</span>, 2013</time>
+<time datetime="2013-02-05T17:44:00+01:00" pubdate data-updated="true">Feb 5<span>th</span>, 2013</time>
       
 
 <span class="categories">
@@ -201,7 +280,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cupofjava.de/blog/2013/02/01/fight-dependency-hell-in-maven/" data-via="fmueller_bln" data-counturl="http://cupofjava.de/blog/2013/02/01/fight-dependency-hell-in-maven/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cupofjava.de/blog/2013/02/05/integration-tests-with-maven-and-tomcat/" data-via="fmueller_bln" data-counturl="http://cupofjava.de/blog/2013/02/05/integration-tests-with-maven-and-tomcat/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -212,10 +291,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left articlenav" href="/blog/2013/01/27/my-little-late-personal-tech-retroperspective-of-2012/" title="Previous Post: My (little late) Personal Tech Retroperspective of 2012">&laquo; My (little late) Personal Tech Retroperspective of 2012</a>
+        <a class="basic-alignment left articlenav" href="/blog/2013/02/03/talented-and-highly-skilled-developers-needed/" title="Previous Post: Talented and highly skilled developers needed">&laquo; Talented and highly skilled developers needed</a>
       
-      
-        <a class="basic-alignment right articlenav" href="/blog/2013/02/03/talented-and-highly-skilled-developers-needed/" title="Next Post: Talented and highly skilled developers needed">Talented and highly skilled developers needed &raquo;</a>
       
     </p>
   </footer>
@@ -339,8 +416,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://cupofjava.de/blog/2013/02/01/fight-dependency-hell-in-maven/';
-        var disqus_url = 'http://cupofjava.de/blog/2013/02/01/fight-dependency-hell-in-maven/';
+        var disqus_identifier = 'http://cupofjava.de/blog/2013/02/05/integration-tests-with-maven-and-tomcat/';
+        var disqus_url = 'http://cupofjava.de/blog/2013/02/05/integration-tests-with-maven-and-tomcat/';
         var disqus_script = 'embed.js';
       
     (function () {
