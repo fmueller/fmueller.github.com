@@ -4,7 +4,7 @@
   <title><![CDATA[Category: snippet | Cup of Java]]></title>
   <link href="http://cupofjava.de/blog/categories/snippet/atom.xml" rel="self"/>
   <link href="http://cupofjava.de/"/>
-  <updated>2013-02-05T20:12:35+01:00</updated>
+  <updated>2013-02-05T20:23:49+01:00</updated>
   <id>http://cupofjava.de/</id>
   <author>
     <name><![CDATA[Felix Müller]]></name>
@@ -107,7 +107,7 @@
 </plugin>
 ```</p>
 
-<p>With this little setup you get full support for integration tests with Maven and Tomcat in your web applications, especially if you building rest apis. I hope that this Maven snippet helps you to improve your build.</p>
+<p>With this little setup you get full support for integration tests with Maven and Tomcat in your web applications, especially if you building rest apis. I hope that this Maven snippet helps you to improve your builds.</p>
 ]]></content>
   </entry>
   
