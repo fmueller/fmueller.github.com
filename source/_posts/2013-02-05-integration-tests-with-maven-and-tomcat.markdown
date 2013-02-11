@@ -19,7 +19,7 @@ For that you have to exclude all integration tests in the normal test phase of M
   <version>2.12.1</version>
   <configuration>
     <excludes>
-      <exclude>**/*IntegrationTest.java</exclude>
+      <exclude>**/*IntegrationTest*</exclude>
     </excludes>
   </configuration>
 </plugin>
@@ -34,7 +34,7 @@ Now you should add all integration tests to the Maven Failsafe Plugin and activa
   <version>2.12.4</version>
   <configuration>
     <includes>
-      <include>**/*IntegrationTest.java</include>
+      <include>**/*IntegrationTest*</include>
     </includes>
   </configuration>
   <executions>
@@ -81,3 +81,5 @@ After this the only missing step is a working Tomcat integration in your build. 
 ```
 
 With this little setup you get full support for integration tests with Maven and Tomcat in your web applications, especially if you building rest apis. I hope that this Maven snippet helps you to improve your builds.
+
+**Update [11.02.2013]** Changed suffix of include and exclude configurations. Thanks to a hint by Erich Eichinger in the comment section.
