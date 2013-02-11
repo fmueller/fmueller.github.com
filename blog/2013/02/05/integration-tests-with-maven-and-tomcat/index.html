@@ -136,7 +136,7 @@
 </span><span class='line'>  <span class="nt">&lt;version&gt;</span>2.12.1<span class="nt">&lt;/version&gt;</span>
 </span><span class='line'>  <span class="nt">&lt;configuration&gt;</span>
 </span><span class='line'>    <span class="nt">&lt;excludes&gt;</span>
-</span><span class='line'>      <span class="nt">&lt;exclude&gt;</span>**/*IntegrationTest.java<span class="nt">&lt;/exclude&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;exclude&gt;</span>**/*IntegrationTest*<span class="nt">&lt;/exclude&gt;</span>
 </span><span class='line'>    <span class="nt">&lt;/excludes&gt;</span>
 </span><span class='line'>  <span class="nt">&lt;/configuration&gt;</span>
 </span><span class='line'><span class="nt">&lt;/plugin&gt;</span>
@@ -169,7 +169,7 @@
 </span><span class='line'>  <span class="nt">&lt;version&gt;</span>2.12.4<span class="nt">&lt;/version&gt;</span>
 </span><span class='line'>  <span class="nt">&lt;configuration&gt;</span>
 </span><span class='line'>    <span class="nt">&lt;includes&gt;</span>
-</span><span class='line'>      <span class="nt">&lt;include&gt;</span>**/*IntegrationTest.java<span class="nt">&lt;/include&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;include&gt;</span>**/*IntegrationTest*<span class="nt">&lt;/include&gt;</span>
 </span><span class='line'>    <span class="nt">&lt;/includes&gt;</span>
 </span><span class='line'>  <span class="nt">&lt;/configuration&gt;</span>
 </span><span class='line'>  <span class="nt">&lt;executions&gt;</span>
@@ -244,6 +244,8 @@
 
 
 <p>With this little setup you get full support for integration tests with Maven and Tomcat in your web applications, especially if you building rest apis. I hope that this Maven snippet helps you to improve your builds.</p>
+
+<p><strong>Update [11.02.2013]</strong> Changed suffix of include and exclude configurations. Thanks to a hint by Erich Eichinger in the comment section.</p>
 </div>
 
 

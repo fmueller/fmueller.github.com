@@ -44,7 +44,7 @@
     </url>
     <url>
         <loc>http://cupofjava.de/blog/2013/02/05/integration-tests-with-maven-and-tomcat/</loc>
-        <lastmod>2013-02-05T20:23:42+01:00</lastmod>
+        <lastmod>2013-02-11T10:05:10+01:00</lastmod>
     </url>
     <url>
         <loc>http://cupofjava.de/about/</loc>
@@ -52,7 +52,7 @@
     </url>
     <url>
         <loc>http://cupofjava.de/blog/archives/</loc>
-        <lastmod>2013-02-05T20:23:42+01:00</lastmod>
+        <lastmod>2013-02-11T10:05:10+01:00</lastmod>
     </url>
     <url>
         <loc>http://cupofjava.de/impressum/</loc>
@@ -60,6 +60,6 @@
     </url>
     <url>
         <loc>http://cupofjava.de/</loc>
-        <lastmod>2013-02-05T20:23:42+01:00</lastmod>
+        <lastmod>2013-02-11T10:05:10+01:00</lastmod>
     </url>
 </urlset>
