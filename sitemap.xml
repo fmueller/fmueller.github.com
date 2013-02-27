@@ -47,12 +47,16 @@
         <lastmod>2013-02-11T10:05:10+01:00</lastmod>
     </url>
     <url>
+        <loc>http://cupofjava.de/blog/2013/02/27/mongodb-berlin-2013/</loc>
+        <lastmod>2013-02-27T09:35:21+01:00</lastmod>
+    </url>
+    <url>
         <loc>http://cupofjava.de/about/</loc>
         <lastmod>2013-02-05T12:03:02+01:00</lastmod>
     </url>
     <url>
         <loc>http://cupofjava.de/blog/archives/</loc>
-        <lastmod>2013-02-11T10:05:10+01:00</lastmod>
+        <lastmod>2013-02-27T09:35:21+01:00</lastmod>
     </url>
     <url>
         <loc>http://cupofjava.de/impressum/</loc>
@@ -60,6 +64,6 @@
     </url>
     <url>
         <loc>http://cupofjava.de/</loc>
-        <lastmod>2013-02-11T10:05:10+01:00</lastmod>
+        <lastmod>2013-02-27T09:35:21+01:00</lastmod>
     </url>
 </urlset>
