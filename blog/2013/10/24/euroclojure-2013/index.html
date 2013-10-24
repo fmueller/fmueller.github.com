@@ -1,0 +1,349 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>EuroClojure 2013 - Cup of Java</title>
+  <meta name="author" content="Felix Müller">
+
+  
+  <meta name="description" content="Last week I attended the EuroClojure conference, which is the yearly meeting of the Clojure community. As a Clojure beginner I was interested in &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cupofjava.de/blog/2013/10/24/euroclojure-2013/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Cup of Java" type="application/atom+xml">
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-36050488-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <div id="logo">
+  	<div id="logoLeft">{</div>
+  	<div id="logoText">dev</div>
+  	<div id="logoRight">}</div>
+  	<div class="clear"></div>
+  </div>
+  <h1><a href="/">Cup of Java</a></h1>
+  
+    <h2>Tales of a lost software developer</h2>
+  
+  <div class="clear"></div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:cupofjava.de" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/categories/snippet">Snippets</a></li>
+  <li><a href="/about">About</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">EuroClojure 2013</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-24T13:20:00+02:00" pubdate data-updated="true">Oct 24<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Last week I attended the EuroClojure conference, which is the yearly meeting of the Clojure community. As a Clojure beginner I was interested in getting a glimps of what is all the buzz about this language currently receives. So, just let me share my impressions and thoughts with you.<!-- more --></p>
+
+<h3>First day</h3>
+
+<p>This conference started with a meta-talk (well, obviously a keynote) about systems and complexity by Zach Tellman. He shared quite interesting ideas with us. The keynote was finished with some recommendations for further readings:</p>
+
+<div class='embed tweet'><blockquote class="twitter-tweet"><p><a href="https://twitter.com/search?q=%23euroclojure&amp;src=hash">#euroclojure</a> <a href="https://twitter.com/ztellman">@ztellman</a>&#39;s reading list for those who missed it. <a href="http://t.co/WHNDYgd69L">pic.twitter.com/WHNDYgd69L</a></p>&mdash; Bodil Stokke (@bodil) <a href="https://twitter.com/bodil/statuses/389655080041213953">October 14, 2013</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></div>
+
+
+<p>Two talks about side projects followed. One of them was quite funny: <a href="https://twitter.com/bodil">Bodil Stokke</a> talked about building your own Lisp. Her Lisp is called Bodol. You can find the pon… eh, slides <a href="http://bodil.org/building-lisp">here</a>. After this <a href="https://twitter.com/ordnungswprog">Philip Meier</a> talked about <a href="http://clojure-liberator.github.io/liberator/">liberator</a>, a promising library for building RESTful APIs in Clojure. Then <a href="https://twitter.com/josephwilk">Joseph Wilk</a> took us on the journey to creative machines. He raised the question, if machines can be creative. And he delivered his answer: <a href="https://github.com/josephwilk/musical-creativity">musical creativity</a>. In this project he gives the machine a set of tones and an association network. With this setup new music is created based on a probabilistic approach. Underneath the awesome Clojure library <a href="https://github.com/overtone/overtone/">Overtone</a> is used. It&#8217;s on my list to play around with it. It should be on yours, too.</p>
+
+<p>Then the highlight of this day was presented: an ARDrone that is controlled by a LeapMotion pad. It is like a self made Kinect for ARDrones. The code and workspace setup was also quite nice. Here is a live-recording of the demo:</p>
+
+<div class="embed-video-container"><iframe src="http://player.vimeo.com/video/76887566 "></iframe></div>
+
+
+<p>The day was finished by a talk about code smells in Clojure. An interesting topic because the typical smells of object-orientated languages are not applicable to a Lisp derivate. You can find a detailed summary of this talk <a href="http://teropa.info/blog/2013/10/14/euroclojure-2013-common-clojure-smells.html">here</a>.</p>
+
+<h3>Second day</h3>
+
+<p>The last day I had a blast. I could attend the best keynote in my life so far, given by <a href="https://twitter.com/stuarthalloway">Stuart Halloway</a>. It was a sarcastic keynote about narcissistic design: what you can do to keep your job forever. How you can make yourself irreplaceable. It&#8217;s pity that this talk wasn&#8217;t recorded. But I found a recording of this talk from another conference (it&#8217;s not as good as on the EuroClojure but better than nothing):</p>
+
+<div class="embed-video-container"><iframe src="http://player.vimeo.com/video/77199361 "></iframe></div>
+
+
+<p>Again, I recommend to read the detailed notes <a href="http://teropa.info/blog/2013/10/15/euroclojure-2013-narcissistic-design.html">here</a> by <a href="https://twitter.com/teropa">Tero Parviainen</a>. And here are two quotes from the keynote:</p>
+
+<div class='embed tweet'><blockquote class="twitter-tweet"><p>OH: it’s obviously bad practice because it’s written in PHP <a href="https://twitter.com/search?q=%23euroclojure&amp;src=hash">#euroclojure</a></p>&mdash; Moritz Grauel (@mo_gr) <a href="https://twitter.com/mo_gr/statuses/390010067275497472">October 15, 2013</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></div>
+
+
+<div class='embed tweet'><blockquote class="twitter-tweet"><p><a href="https://twitter.com/search?q=%23euroclojure&amp;src=hash">#euroclojure</a> clean code pro tip <a href="http://t.co/v0acHYjQV1">pic.twitter.com/v0acHYjQV1</a></p>&mdash; Thomas Moerman (@thomasjmoerman) <a href="https://twitter.com/thomasjmoerman/statuses/390020671667183616">October 15, 2013</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></div>
+
+
+<p>Two migration talks followed. One was about the Daily Mail. They are probably serving the longest website on this planet (8,5 meters long when printed on paper). Their old system is described on this slide:</p>
+
+<div class='embed tweet'><blockquote class="twitter-tweet"><p>The mail online legacy code <a href="https://twitter.com/search?q=%23euroclojure&amp;src=hash">#euroclojure</a> <a href="http://t.co/fS21CpNj6x">pic.twitter.com/fS21CpNj6x</a></p>&mdash; Jan Ehrhardt (@derjan) <a href="https://twitter.com/derjan/statuses/390042689573752832">October 15, 2013</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></div>
+
+
+<p>So, they rewrote the whole system in Clojure. Now the codebase is only 13k lines big. Quite impressive!</p>
+
+<p><a href="https://twitter.com/samaaron">Sam Aaron</a> followed with his talk about <a href="https://twitter.com/meta_ex">Meta-eX</a>: the first live coding band on earth. He showed us how he makes music with Clojure. Here is a recording of his live demo:</p>
+
+<div class='embed tweet'><blockquote class="twitter-tweet"><p>Live performance by <a href="https://twitter.com/samaaron">@samaaron</a> &amp; <a href="https://twitter.com/meta_ex">@meta_ex</a> at <a href="https://twitter.com/search?q=%23EuroClojure&amp;src=hash">#EuroClojure</a>  <a href="https://t.co/83aXEmtIFf">https://t.co/83aXEmtIFf</a> Beautiful &amp; inspiring, create your own <a href="https://twitter.com/overtone">@Overtone</a> band</p>&mdash; Joseph Wilk (@josephwilk) <a href="https://twitter.com/josephwilk/statuses/390134405752434689">October 15, 2013</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></div>
+
+
+<p>Afterwards two talks about enterprise integration were given. The libraries <a href="https://github.com/ztellman/lamina">Lamina</a>, <a href="https://github.com/clojurewerkz/eep">EEP</a> and <a href="http://storm-project.net">Storm</a> were shown.</p>
+
+<h3>Impressions</h3>
+
+<p>The crowd at the EuroClojure conference consisted of hard Lisp&#8217;ers, Clojurians who came from languages like Ruby and Java to Clojure and me: a Clojure beginner with Scala background.</p>
+
+<p>An interesting observation (for an apple fanboy): less macbooks as on other conferences. More interesting for you: emacs seems to be the editor of choice for most Clojure developers - instead of IDEs like Eclipse or IntelliJ.</p>
+
+<p>When you would ask me, what could characterize the Clojure community I would answer: diversity and pragmatism. The combination is quite interesting. They don&#8217;t want to live in an academic world. They want to solve real-world problems. And it seems they have an  expressive and concise language to accomplish this.</p>
+
+<h3>Summary</h3>
+
+<p>Was it worth it? Definitely yes! It were two great days with lots of different subjects, from nerdvana to enterprise. Beside interesting libraries such as librerator, I saw lots of cool projects.</p>
+
+<p>The first day felt like being on <a href="http://en.wikipedia.org/wiki/Chaos_Communication_Congress">Chaos Communication Congress</a> but without being afraid someone hacks your smartphone or macbook. After this the second day broadened my view on the Clojure community and also showed more real-world usages.</p>
+
+<p>I will continue my travel into the deep rabbit hole called Clojure and its ecosystem, for sure.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Felix Müller</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-24T13:20:00+02:00" pubdate data-updated="true">Oct 24<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/clojure/'>clojure</a>, <a class='category' href='/blog/categories/conference/'>conference</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cupofjava.de/blog/2013/10/24/euroclojure-2013/" data-via="" data-counturl="http://cupofjava.de/blog/2013/10/24/euroclojure-2013/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left articlenav" href="/blog/2013/02/27/mongodb-berlin-2013/" title="Previous Post: MongoDB Berlin 2013">&laquo; MongoDB Berlin 2013</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/10/24/euroclojure-2013/">EuroClojure 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/27/mongodb-berlin-2013/">MongoDB Berlin 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/05/integration-tests-with-maven-and-tomcat/">Integration Tests with Maven and Tomcat</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/03/talented-and-highly-skilled-developers-needed/">Talented and highly skilled developers needed</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/01/fight-dependency-hell-in-maven/">Fight dependency hell in Maven</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/102144764088402040998?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+<section>
+    <a href="http://www.xing.com/profile/Felix_Mueller98" target="_blank" rel="me"><img src="http://www.xing.com/img/buttons/10_en_btn.gif" alt="Felix Müller" style="border: 0;"></a>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Felix Müller -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  <span style="float: right"><a href="/impressum">Impressum</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'cupofjava';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://cupofjava.de/blog/2013/10/24/euroclojure-2013/';
+        var disqus_url = 'http://cupofjava.de/blog/2013/10/24/euroclojure-2013/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

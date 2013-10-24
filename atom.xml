@@ -4,7 +4,7 @@
   <title><![CDATA[Cup of Java]]></title>
   <link href="http://cupofjava.de/atom.xml" rel="self"/>
   <link href="http://cupofjava.de/"/>
-  <updated>2013-10-06T15:44:57+02:00</updated>
+  <updated>2013-10-24T16:48:06+02:00</updated>
   <id>http://cupofjava.de/</id>
   <author>
     <name><![CDATA[Felix Müller]]></name>
@@ -12,6 +12,81 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[EuroClojure 2013]]></title>
+    <link href="http://cupofjava.de/blog/2013/10/24/euroclojure-2013/"/>
+    <updated>2013-10-24T13:20:00+02:00</updated>
+    <id>http://cupofjava.de/blog/2013/10/24/euroclojure-2013</id>
+    <content type="html"><![CDATA[<p>Last week I attended the EuroClojure conference, which is the yearly meeting of the Clojure community. As a Clojure beginner I was interested in getting a glimps of what is all the buzz about this language currently receives. So, just let me share my impressions and thoughts with you.<!-- more --></p>
+
+<h3>First day</h3>
+
+<p>This conference started with a meta-talk (well, obviously a keynote) about systems and complexity by Zach Tellman. He shared quite interesting ideas with us. The keynote was finished with some recommendations for further readings:</p>
+
+<div class='embed tweet'><blockquote class="twitter-tweet"><p><a href="https://twitter.com/search?q=%23euroclojure&amp;src=hash">#euroclojure</a> <a href="https://twitter.com/ztellman">@ztellman</a>&#39;s reading list for those who missed it. <a href="http://t.co/WHNDYgd69L">pic.twitter.com/WHNDYgd69L</a></p>&mdash; Bodil Stokke (@bodil) <a href="https://twitter.com/bodil/statuses/389655080041213953">October 14, 2013</a></blockquote>
+<script async src="http://cupofjava.de//platform.twitter.com/widgets.js" charset="utf-8"></script></div>
+
+
+<p>Two talks about side projects followed. One of them was quite funny: <a href="https://twitter.com/bodil">Bodil Stokke</a> talked about building your own Lisp. Her Lisp is called Bodol. You can find the pon… eh, slides <a href="http://bodil.org/building-lisp">here</a>. After this <a href="https://twitter.com/ordnungswprog">Philip Meier</a> talked about <a href="http://clojure-liberator.github.io/liberator/">liberator</a>, a promising library for building RESTful APIs in Clojure. Then <a href="https://twitter.com/josephwilk">Joseph Wilk</a> took us on the journey to creative machines. He raised the question, if machines can be creative. And he delivered his answer: <a href="https://github.com/josephwilk/musical-creativity">musical creativity</a>. In this project he gives the machine a set of tones and an association network. With this setup new music is created based on a probabilistic approach. Underneath the awesome Clojure library <a href="https://github.com/overtone/overtone/">Overtone</a> is used. It&#8217;s on my list to play around with it. It should be on yours, too.</p>
+
+<p>Then the highlight of this day was presented: an ARDrone that is controlled by a LeapMotion pad. It is like a self made Kinect for ARDrones. The code and workspace setup was also quite nice. Here is a live-recording of the demo:</p>
+
+<div class="embed-video-container"><iframe src="http://player.vimeo.com/video/76887566 "></iframe></div>
+
+
+<p>The day was finished by a talk about code smells in Clojure. An interesting topic because the typical smells of object-orientated languages are not applicable to a Lisp derivate. You can find a detailed summary of this talk <a href="http://teropa.info/blog/2013/10/14/euroclojure-2013-common-clojure-smells.html">here</a>.</p>
+
+<h3>Second day</h3>
+
+<p>The last day I had a blast. I could attend the best keynote in my life so far, given by <a href="https://twitter.com/stuarthalloway">Stuart Halloway</a>. It was a sarcastic keynote about narcissistic design: what you can do to keep your job forever. How you can make yourself irreplaceable. It&#8217;s pity that this talk wasn&#8217;t recorded. But I found a recording of this talk from another conference (it&#8217;s not as good as on the EuroClojure but better than nothing):</p>
+
+<div class="embed-video-container"><iframe src="http://player.vimeo.com/video/77199361 "></iframe></div>
+
+
+<p>Again, I recommend to read the detailed notes <a href="http://teropa.info/blog/2013/10/15/euroclojure-2013-narcissistic-design.html">here</a> by <a href="https://twitter.com/teropa">Tero Parviainen</a>. And here are two quotes from the keynote:</p>
+
+<div class='embed tweet'><blockquote class="twitter-tweet"><p>OH: it’s obviously bad practice because it’s written in PHP <a href="https://twitter.com/search?q=%23euroclojure&amp;src=hash">#euroclojure</a></p>&mdash; Moritz Grauel (@mo_gr) <a href="https://twitter.com/mo_gr/statuses/390010067275497472">October 15, 2013</a></blockquote>
+<script async src="http://cupofjava.de//platform.twitter.com/widgets.js" charset="utf-8"></script></div>
+
+
+<div class='embed tweet'><blockquote class="twitter-tweet"><p><a href="https://twitter.com/search?q=%23euroclojure&amp;src=hash">#euroclojure</a> clean code pro tip <a href="http://t.co/v0acHYjQV1">pic.twitter.com/v0acHYjQV1</a></p>&mdash; Thomas Moerman (@thomasjmoerman) <a href="https://twitter.com/thomasjmoerman/statuses/390020671667183616">October 15, 2013</a></blockquote>
+<script async src="http://cupofjava.de//platform.twitter.com/widgets.js" charset="utf-8"></script></div>
+
+
+<p>Two migration talks followed. One was about the Daily Mail. They are probably serving the longest website on this planet (8,5 meters long when printed on paper). Their old system is described on this slide:</p>
+
+<div class='embed tweet'><blockquote class="twitter-tweet"><p>The mail online legacy code <a href="https://twitter.com/search?q=%23euroclojure&amp;src=hash">#euroclojure</a> <a href="http://t.co/fS21CpNj6x">pic.twitter.com/fS21CpNj6x</a></p>&mdash; Jan Ehrhardt (@derjan) <a href="https://twitter.com/derjan/statuses/390042689573752832">October 15, 2013</a></blockquote>
+<script async src="http://cupofjava.de//platform.twitter.com/widgets.js" charset="utf-8"></script></div>
+
+
+<p>So, they rewrote the whole system in Clojure. Now the codebase is only 13k lines big. Quite impressive!</p>
+
+<p><a href="https://twitter.com/samaaron">Sam Aaron</a> followed with his talk about <a href="https://twitter.com/meta_ex">Meta-eX</a>: the first live coding band on earth. He showed us how he makes music with Clojure. Here is a recording of his live demo:</p>
+
+<div class='embed tweet'><blockquote class="twitter-tweet"><p>Live performance by <a href="https://twitter.com/samaaron">@samaaron</a> &amp; <a href="https://twitter.com/meta_ex">@meta_ex</a> at <a href="https://twitter.com/search?q=%23EuroClojure&amp;src=hash">#EuroClojure</a>  <a href="https://t.co/83aXEmtIFf">https://t.co/83aXEmtIFf</a> Beautiful &amp; inspiring, create your own <a href="https://twitter.com/overtone">@Overtone</a> band</p>&mdash; Joseph Wilk (@josephwilk) <a href="https://twitter.com/josephwilk/statuses/390134405752434689">October 15, 2013</a></blockquote>
+<script async src="http://cupofjava.de//platform.twitter.com/widgets.js" charset="utf-8"></script></div>
+
+
+<p>Afterwards two talks about enterprise integration were given. The libraries <a href="https://github.com/ztellman/lamina">Lamina</a>, <a href="https://github.com/clojurewerkz/eep">EEP</a> and <a href="http://storm-project.net">Storm</a> were shown.</p>
+
+<h3>Impressions</h3>
+
+<p>The crowd at the EuroClojure conference consisted of hard Lisp&#8217;ers, Clojurians who came from languages like Ruby and Java to Clojure and me: a Clojure beginner with Scala background.</p>
+
+<p>An interesting observation (for an apple fanboy): less macbooks as on other conferences. More interesting for you: emacs seems to be the editor of choice for most Clojure developers - instead of IDEs like Eclipse or IntelliJ.</p>
+
+<p>When you would ask me, what could characterize the Clojure community I would answer: diversity and pragmatism. The combination is quite interesting. They don&#8217;t want to live in an academic world. They want to solve real-world problems. And it seems they have an  expressive and concise language to accomplish this.</p>
+
+<h3>Summary</h3>
+
+<p>Was it worth it? Definitely yes! It were two great days with lots of different subjects, from nerdvana to enterprise. Beside interesting libraries such as librerator, I saw lots of cool projects.</p>
+
+<p>The first day felt like being on <a href="http://en.wikipedia.org/wiki/Chaos_Communication_Congress">Chaos Communication Congress</a> but without being afraid someone hacks your smartphone or macbook. After this the second day broadened my view on the Clojure community and also showed more real-world usages.</p>
+
+<p>I will continue my travel into the deep rabbit hole called Clojure and its ecosystem, for sure.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[MongoDB Berlin 2013]]></title>
