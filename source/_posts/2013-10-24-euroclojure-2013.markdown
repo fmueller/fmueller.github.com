@@ -44,7 +44,7 @@ When you would ask me, what could characterize the Clojure community I would ans
 
 ### Summary
 
-Was it worth it? Definitely yes! It were two great days with lots of different subjects, from nerdvana to enterprise. Beside interesting libraries such as librerator, I saw lots of cool projects.
+Was it worth it? Definitely yes! It were two great days with lots of different subjects, from nerdvana to enterprise. Beside interesting libraries such as liberator, I saw lots of cool projects.
 
 The first day felt like being on [Chaos Communication Congress](http://en.wikipedia.org/wiki/Chaos_Communication_Congress) but without being afraid someone hacks your smartphone or macbook. After this the second day broadened my view on the Clojure community and also showed more real-world usages.
 
