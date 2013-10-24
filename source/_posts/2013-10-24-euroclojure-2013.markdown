@@ -20,7 +20,7 @@ The day was finished by a talk about code smells in Clojure. An interesting topi
 
 ### Second day
 
-The last day I had a blast. I could attend the best keynote in my life so far, given by [Stuart Halloway](https://twitter.com/stuarthalloway). It was a sarcastic keynote about narcistic design: what you can do to keep your job forever. How you can make yourself irreplaceable. It's pity that this talk wasn't recorded. But I found a recording of this talk from another conference (it's not as good as on the EuroClojure but better than nothing):
+The last day I had a blast. I could attend the best keynote in my life so far, given by [Stuart Halloway](https://twitter.com/stuarthalloway). It was a sarcastic keynote about narcissistic design: what you can do to keep your job forever. How you can make yourself irreplaceable. It's pity that this talk wasn't recorded. But I found a recording of this talk from another conference (it's not as good as on the EuroClojure but better than nothing):
 {% vimeo 77199361 %}
 Again, I recommend to read the detailed notes [here](http://teropa.info/blog/2013/10/15/euroclojure-2013-narcissistic-design.html) by [Tero Parviainen](https://twitter.com/teropa). And here are two quotes from the keynote:
 {% tweet https://twitter.com/mo_gr/statuses/390010067275497472 %}
